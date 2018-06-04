@@ -38,9 +38,9 @@ class WatchParty extends Component {
 
   render () {
     let activeElection = this.props.activeElection;
-    let candidates = this.props.candidates; 
+    let candidates = this.props.candidates;
     console.log(candidates);
-    
+
     return (
       <div className="watchParty-wrapper">
           {
