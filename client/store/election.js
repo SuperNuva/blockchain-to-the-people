@@ -51,7 +51,6 @@ export const fetchBlockchainElections = () => {
 };
 
 export const fetchActiveElection = (userCommunityId) => {
-  //console.log('Yeah! fetchActiveElections is running')
   return dispatch => {
     axios.get(`/api/community/${userCommunityId}/active`)
       .then(res => res.data)
@@ -132,9 +131,6 @@ export function upcomingElectionsReducer(upcomingElections = [], action) {
       return action.upcomingElections
     case POST_NEW_ELECTION:
       return [...upcomingElections, action.newElection]
-    //case ADD_NEW_CANDIDATE:
-      // upcomingElections.candidates.push(action.newCandidate);
-      //return upcomingElections
     default:
       return upcomingElections
   }

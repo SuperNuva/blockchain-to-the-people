@@ -33,7 +33,7 @@ export const signup = (name, email, password) =>
    axios.post('/auth/signup', { name, email, password })
      .then(res => {
        dispatch(getUser(res.data))
-       history.push('/instructions'); //do we want a different home for a newly signedup user?
+       history.push('/instructions');
      }, authError => { // rare example: a good use case for parallel (non-catch) error handler
        dispatch(getUser({error: authError}))
      })

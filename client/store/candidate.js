@@ -27,5 +27,3 @@ export const fetchCandidates = (election) => {
       .catch(console.error);
   }
 };
-
-//do we need an action creator to update the candidates array with the new candidate now?

@@ -7,7 +7,6 @@ import Election from '../../ethereum/election';
 import Checkbox from 'material-ui/Checkbox'
 import socket from '../socket';
 import moment from 'moment';
-//export const newVoteSocket
 
 const style = {
   margin: 15,
@@ -62,41 +61,31 @@ class VotingBooth extends Component {
   }
 
   handleChange(evt) {
-    console.log('DOES CANDIDATE ID GET HERE? ');
-    console.log('HERE IS EVT TARGET VAL', evt.target.value);
-    //expect CODE to come here,
-    // this.selectedCandidateArrayIndex = evt.target.value;
-    // console.log("HERE is EVT target val", evt.target.value)
     this.setState({[evt.target.name]: evt.target.value});
   }
 
 
-  handleSubmit = async (evt) => {
+  handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log('here is state BEFORE we deal with blockchain: ', this.state);
-    //equal in find needs to be double, not triple, equal
+    //equal in find needs to be double, not triple equal
     const selectedCandidate = this.props.candidates.find(candidate => candidate.arrayIndex == this.state.arrayIndex);
-    console.log("what is up with this selectedCandidate thing :", selectedCandidate);
 
     web3.eth.getAccounts()
     .then(accounts => {
       this.setState({ isLoading: true, open: true});
       this.election.methods.submitVote(this.state.code, this.state.arrayIndex).send({
         from: accounts[0],
-        //equivalent to udemy would be --> value: this.state.arrayIndex
       })
       .then(voteReceipt => {
 
-        console.log("TESTING STATE INPUT");
-        console.log('DIS IS WHAT WE GOT FROM STATE', this.state);
         alert('Congratulations! Your vote has been cast!');
         const candidateLog = voteReceipt.events.CandidateLog.returnValues;
-        console.log('VOTING BOOTH voteReciept', voteReceipt);
-        console.log('DIS IS WHAT WE GOT FROM AND SENT TO BLOCKCHAIN', {
-          count: candidateLog.count,
-          index: candidateLog.index,
-          name: candidateLog.name,
-        })
+        // This is what we get from and send to the Blockchain:
+        // {
+        //   count: candidateLog.count,
+        //   index: candidateLog.index,
+        //   name: candidateLog.name,
+        // }
         this.props.sendNewVote({count: candidateLog.count, index: candidateLog.index, name: candidateLog.name}, selectedCandidate.id);
         socket.emit('newVote', {count: candidateLog.count, index: candidateLog.index, name: candidateLog.name});
         this.setState({ isLoading: false, open: false });
