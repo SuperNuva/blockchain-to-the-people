@@ -38,4 +38,4 @@ export function communityMembersReducer(communityMembers=[], action) {
     default:
       return communityMembers
   }
-};
+}
